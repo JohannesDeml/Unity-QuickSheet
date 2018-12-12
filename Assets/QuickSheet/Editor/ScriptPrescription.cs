@@ -52,6 +52,7 @@ namespace UnityQuickSheet
         Double,
         Enum,
         Bool,
+        Ignore
     }
 
     public class MemberFieldData
@@ -92,6 +93,8 @@ namespace UnityQuickSheet
                     return "enum";
                 case CellType.Bool:
                     return "bool";
+                case CellType.Ignore:
+                    return "ignore";
                 default:
                     return "string";
                 }

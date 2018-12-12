@@ -13,7 +13,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Globalization;
-
+using NPOI.HSSF.Record;
 using Object = UnityEngine.Object;
 
 namespace UnityQuickSheet
@@ -156,9 +156,12 @@ namespace UnityQuickSheet
             
             // Other replacements
             foreach (KeyValuePair<string, string> kvp in m_ScriptPrescription.mStringReplacements)
+            {
                 m_Text = m_Text.Replace (kvp.Key, kvp.Value);
+            }
+                
 
-            // Do not change tabs to spcaes of the .txt template files.
+            // Do not change tabs to spaces of the .txt template files.
             Match match = Regex.Match (m_Text, @"(\t*)\$MemberFields");
             if (match.Success)
             {
@@ -168,6 +171,10 @@ namespace UnityQuickSheet
                 {
                     foreach(var field in m_ScriptPrescription.memberFields)
                     {
+                        if (field.type == CellType.Ignore)
+                        {
+                            continue;
+                        }
                         WriteMemberField(field);
                         WriteProperty(field);
                         WriteBlankLine();
